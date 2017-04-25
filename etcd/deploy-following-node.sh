@@ -20,7 +20,7 @@ portclient=`docker port $container 4001 | cut -d':' -f2`
 containerip=`docker exec $container /bin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 [[ -z  $containerip  ]] && echo "can't get container ip" && exit
 
-cluster=`docker exec $container /etcdctl --endpoint=$clients member add $nodename "http://$host:$portpeer" | grep ETCD_INITIAL_CLUSTER= | cut -d'"' -f2`
+cluster=`docker exec $container ./etcdctl --endpoint=$clients member add $nodename "http://$host:$portpeer" | grep ETCD_INITIAL_CLUSTER= | cut -d'"' -f2`
 [[ -z  $cluster  ]] && echo "can't add to cluster" && exit
 
 echo $containerip
