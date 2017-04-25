@@ -19,6 +19,8 @@ or get the image from docker hub (don't docker run yet)
   *Note* the ip must be accessable by other peers.
 
   At the end of a successful running, the first peer's client url will be shown. Write it down - you will need it in the second step.
+  127.0.0.1:32770
+  
 
 2. Deploy following peers
 

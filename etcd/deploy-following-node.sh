@@ -23,7 +23,7 @@ containerip=`docker exec $container /bin/ifconfig eth0 | grep 'inet addr:' | cut
 cluster=`docker exec $container /etcdctl --endpoint=$clients member add $nodename "http://$host:$portpeer" | grep ETCD_INITIAL_CLUSTER= | cut -d'"' -f2`
 [[ -z  $cluster  ]] && echo "can't add to cluster" && exit
 
-docker exec -d $container /etcd --listen-peer-urls "http://$containerip:4000" --listen-client-urls "http://$containerip:4001" --initial-advertise-peer-urls "http://$host:$portpeer" --initial-cluster $cluster --advertise-client-urls "http://$host:$portclient" --initial-cluster-state=existing  --name=$nodename
+docker exec -d $container ./etcd --listen-peer-urls "http://$containerip:4000" --listen-client-urls "http://$containerip:4001" --initial-advertise-peer-urls "http://$host:$portpeer" --initial-cluster $cluster --advertise-client-urls "http://$host:$portclient" --initial-cluster-state=existing  --name=$nodename
 
 echo "deployment is successful. your client endpoint is "
 echo "$host:$portclient"

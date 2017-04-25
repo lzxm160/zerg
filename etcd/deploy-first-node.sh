@@ -17,7 +17,7 @@ portclient=`docker port $container 4001 | cut -d':' -f2`
 containerip=`docker exec $container /bin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 [[ -z  $containerip  ]] && echo "can't get container ip" && exit
 
-docker exec -d $container /etcd --listen-peer-urls "http://$containerip:4000" --listen-client-urls "http://$containerip:4001" --initial-advertise-peer-urls "http://$host:$portpeer" --initial-cluster "$nodename=http://$host:$portpeer" --advertise-client-urls "http://$host:$portclient" --initial-cluster-state=new  --name=$nodename
+docker exec -d $container ./etcd --listen-peer-urls "http://$containerip:4000" --listen-client-urls "http://$containerip:4001" --initial-advertise-peer-urls "http://$host:$portpeer" --initial-cluster "$nodename=http://$host:$portpeer" --advertise-client-urls "http://$host:$portclient" --initial-cluster-state=new  --name=$nodename
 
 echo "Your etcd cluster's endpoint is"
 echo "$host:$portclient"
