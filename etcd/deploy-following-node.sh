@@ -26,11 +26,13 @@ echo $containerip
 echo $container
 echo $host
 echo $portpeer
-echo $cluster
+
 echo $host
 echo $portclient
 
 cluster=`docker exec $container ./etcdctl --endpoint=$clients member add $nodename "http://$host:$portpeer" | grep ETCD_INITIAL_CLUSTER= | cut -d'"' -f2`
+echo $cluster
+
 [[ -z  $cluster  ]] && echo "can't add to cluster" && exit
 
 docker exec -d $container ./etcd --listen-peer-urls "http://$containerip:4000" --listen-client-urls "http://$containerip:4001" --initial-advertise-peer-urls "http://$host:$portpeer" --initial-cluster $cluster --advertise-client-urls "http://$host:$portclient" --initial-cluster-state=existing  --name=$nodename
